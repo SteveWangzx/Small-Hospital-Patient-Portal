@@ -6,7 +6,7 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  routes,
+  routes: routes,
   history: {
     type: 'hash',
   },
@@ -14,7 +14,7 @@ export default defineConfig({
   publicPath: './',
   hash: true,
   theme: {
-    '@primary-color': '#24bc06',
+    '@primary-color': '#2f54eb',
     '@ant-prefix': 'ant',
   },
   layout: {

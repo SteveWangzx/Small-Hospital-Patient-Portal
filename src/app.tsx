@@ -3,6 +3,7 @@ import {
   BasicLayoutProps,
   Settings as LayoutSettings,
 } from '@ant-design/pro-layout';
+import type { MenuDataItem } from '@ant-design/pro-layout';
 
 export const layout = ({
   initialState,
@@ -20,7 +21,9 @@ export const layout = ({
     // history.push('/user/login');
     // }
     // },
-    menuHeaderRender: undefined,
+    menuDataRender: (menuData: MenuDataItem[]) => {
+      return menuData;
+    },
     ...initialState?.settings,
   };
 };
