@@ -1,6 +1,6 @@
-import type { IBestAFSRoute } from '@umijs/plugin-layout';
+import { IRoute } from 'umi';
 
-const routes: IBestAFSRoute[] = [
+const routes: IRoute[] = [
   {
     path: '/',
     exact: true,
@@ -11,6 +11,7 @@ const routes: IBestAFSRoute[] = [
     path: '/mainPage',
     exact: true,
     component: '@/pages/index',
+    name: 'dashboard',
     hideInMenu: false,
     routes: [
       {
