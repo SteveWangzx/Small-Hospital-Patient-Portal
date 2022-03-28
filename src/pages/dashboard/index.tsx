@@ -5,15 +5,18 @@ import {
   Select,
   ConfigProvider,
   Space,
+  Form,
   Row,
   Col,
   Card,
   Descriptions,
+  Input,
 } from 'antd';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import enUSIntl from 'antd/lib/locale/en_US';
 import Field from '@ant-design/pro-field';
+import styles from './dashboard.module.less';
 
 const intlMap = {
   enUSIntl,
@@ -30,12 +33,12 @@ type PatientItem = {
 export default function Dashboard() {
   const { Meta } = Card;
   return (
-    <>
+    <div className={styles['dashboard-wrapper']}>
       <Row>
         <Col span={4}>
           <Card
             bordered={false}
-            style={{ margin: 10, background: '#1890ff' }}
+            className={styles['avatar-card']}
             cover={
               <img
                 src="./doctor.png"
@@ -46,7 +49,7 @@ export default function Dashboard() {
             <Meta
               title="Steve Wang"
               description="Surgeon"
-              style={{ color: '#fff' }}
+              className={styles['avatar-meta']}
             />
           </Card>
         </Col>
@@ -54,7 +57,7 @@ export default function Dashboard() {
           <Card
             title="Basic Profile - Doctor"
             bordered={false}
-            style={{ margin: 10, height: '93%' }}
+            className={styles['basic-profile']}
           >
             <Descriptions column={2}>
               <Descriptions.Item label="Name">Steve Wang</Descriptions.Item>
@@ -67,7 +70,7 @@ export default function Dashboard() {
               </Descriptions.Item>
               <Descriptions.Item label="Office">Cardiology</Descriptions.Item>
               <Descriptions.Item label="Address">
-                No. 18, Wantang Road, Xihu District
+                100 Institute Rd
               </Descriptions.Item>
             </Descriptions>
           </Card>
@@ -75,11 +78,34 @@ export default function Dashboard() {
       </Row>
       <Row>
         <Col span={24}>
-          <Card title="Profile Edit" bordered={false} style={{ margin: 10 }}>
-            content
+          <Card
+            title="Profile Edit"
+            bordered={false}
+            className={styles['basic-profile-edit']}
+          >
+            <Form labelCol={{ span: 4 }} wrapperCol={{ span: 14 }}>
+              <Form.Item>
+                <Space>
+                  <Button>Reset</Button>
+                  <Button type="primary">Submit</Button>
+                </Space>
+              </Form.Item>
+              <Descriptions column={2}>
+                <Descriptions.Item label="Name">
+                  <Form.Item>
+                    <Input />
+                  </Form.Item>
+                </Descriptions.Item>
+                <Descriptions.Item label="address">
+                  <Form.Item>
+                    <Input />
+                  </Form.Item>
+                </Descriptions.Item>
+              </Descriptions>
+            </Form>
           </Card>
         </Col>
       </Row>
-    </>
+    </div>
   );
 }

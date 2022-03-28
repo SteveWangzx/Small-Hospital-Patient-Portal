@@ -48,6 +48,19 @@ export default function Patients() {
       title: 'City',
       dataIndex: 'city',
     },
+    {
+      title: 'Operate',
+      render: (row, text) => {
+        return (
+          <>
+            <Space>
+              <Button type="primary"> View </Button>
+              <Button type="primary"> Delete </Button>
+            </Space>
+          </>
+        );
+      },
+    },
   ];
   return (
     <>
