@@ -21,7 +21,7 @@ export default () => {
   );
   const menu = (
     <Menu>
-      <Menu.Item>
+      <Menu.Item key="register">
         <Button
           type="link"
           onClick={() => {
@@ -31,7 +31,7 @@ export default () => {
           {'Register'}
         </Button>
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item key="signIn">
         <Button
           type="link"
           onClick={() => {

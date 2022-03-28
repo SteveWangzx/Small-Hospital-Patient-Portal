@@ -157,8 +157,8 @@ const Create = () => {
             <div className={styles.divider} />
             <Form.Item name="type" label="Register Type">
               <Radio.Group value={userType} onChange={onUserTypeChange}>
-                <Radio.Button value="0">Admin</Radio.Button>
-                <Radio.Button value="1">Normal</Radio.Button>
+                <Radio.Button value="0">Doctor</Radio.Button>
+                <Radio.Button value="1">Patient</Radio.Button>
               </Radio.Group>
             </Form.Item>
             <div className={styles.divider} />

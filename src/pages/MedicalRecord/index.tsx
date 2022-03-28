@@ -1,7 +1,6 @@
-import styles from './index.less';
 import { Button } from 'antd';
 
-export default function IndexPage() {
+export default function MedicalRecord() {
   return (
     <div>
       <Button type="primary">test</Button>

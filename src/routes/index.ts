@@ -3,33 +3,36 @@ import { IRoute } from 'umi';
 const routes: IRoute[] = [
   {
     path: '/',
-    exact: true,
-    redirect: '/mainPage',
+    redirect: '/dashboard',
     hideInMenu: true,
   },
   {
-    path: '/mainPage',
-    exact: true,
-    component: '@/pages/index',
+    path: '/dashboard',
+    exact: false,
+    component: '@/pages/dashboard',
     name: 'dashboard',
-    hideInMenu: false,
-    routes: [
-      {
-        path: '/medicalrecord',
-        name: 'Medical Record',
-        exact: true,
-      },
-      {
-        path: '/pharmacy',
-        name: 'Pharmacy',
-        exact: true,
-      },
-      {
-        path: '/treatment',
-        name: 'Treatment',
-        exact: true,
-      },
-    ],
+  },
+  {
+    path: '/medicalrecord',
+    name: 'Medical Record',
+    component: '@/pages/MedicalRecord',
+    exact: false,
+  },
+  {
+    path: '/pharmacy',
+    name: 'Pharmacy',
+    exact: true,
+  },
+  {
+    path: '/treatment',
+    name: 'Treatment',
+    exact: true,
+  },
+  {
+    path: '/mainPage/patients',
+    name: 'Patients',
+    component: '@/pages/Patients',
+    exact: false,
   },
   {
     title: 'login',
