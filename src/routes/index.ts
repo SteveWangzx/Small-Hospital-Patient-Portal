@@ -30,7 +30,7 @@ const routes: IRoute[] = [
   },
   {
     path: '/mainPage/patients',
-    name: 'Patients',
+    name: 'Users Management',
     component: '@/pages/Patients',
     exact: false,
   },

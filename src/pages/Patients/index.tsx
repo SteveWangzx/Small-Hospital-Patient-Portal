@@ -1,62 +1,103 @@
-import React, { useRef, useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Select, ConfigProvider, Space } from 'antd';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import React, { useEffect, useState, useRef } from 'react';
+import { createIntl, IntlProvider, ProColumns } from '@ant-design/pro-table';
+import type { ActionType, ProColumnType } from '@ant-design/pro-table';
+import ProTable, { TableDropdown } from '@ant-design/pro-table';
 import enUSIntl from 'antd/lib/locale/en_US';
+import {
+  Button,
+  ConfigProvider,
+  Form,
+  Modal,
+  message,
+  Input,
+  Select,
+} from 'antd';
+import type { registerUsers } from '@/services/TypeUser';
+import { fetchUsers } from '@/services/TypeUser';
+import { request } from 'umi';
 
 const intlMap = {
   enUSIntl,
 };
 
-type PatientItem = {
-  name: string;
-  ssn: string;
-  dob: string;
-  gender: string;
-  state: string;
-  city: string;
+const type: { [key: string]: string } = {
+  '0': 'Administrator',
+  '1': 'Registered User',
 };
-export default function Patients() {
-  const [intl, setIntl] = useState('enUSIntl');
-  const actionRef = useRef<ActionType>();
 
-  const columns: ProColumns<PatientItem>[] = [
+export default function () {
+  const actionRef = useRef<ActionType>();
+  const [UAvisible, setUAvisible] = useState<boolean>(false);
+  const uid = localStorage.getItem('ams_uid');
+  const quid_ref = useRef<string>('');
+
+  const handleUAClick = () => {
+    setUAvisible(true);
+  };
+
+  const handleUACancel = () => {
+    setUAvisible(false);
+  };
+
+  const deleteUser = (duid: string) => {
+    request(
+      'https://n63zuarfta.execute-api.us-east-2.amazonaws.com/Alpha/adminstor/deleteRegisterUser',
+      {
+        method: 'POST',
+        data: {
+          duid: duid,
+          uid: uid,
+        },
+      },
+    )
+      .then((res) => {
+        message.success('Delete Success');
+      })
+      .then((res) => {
+        actionRef?.current?.reload();
+      })
+      .catch((err) => {
+        message.error('Delete Failed');
+      });
+  };
+
+  const columns: ProColumns<registerUsers>[] = [
     {
-      title: 'Name',
-      dataIndex: 'name',
+      title: 'User Name',
+      dataIndex: 'uname',
     },
     {
-      title: 'SSN',
-      dataIndex: 'ssn',
-      hideInSearch: true,
+      title: 'Password',
+      dataIndex: 'password',
+      search: false,
     },
     {
-      title: 'Date of Birth',
-      dataIndex: 'dob',
-      hideInSearch: true,
+      title: 'User ID',
+      dataIndex: 'uid',
+      search: false,
     },
     {
-      title: 'Gender',
-      dataIndex: 'gender',
-    },
-    {
-      title: 'State',
-      dataIndex: 'state',
-    },
-    {
-      title: 'City',
-      dataIndex: 'city',
+      title: 'User Type',
+      dataIndex: 'type',
+      render: (row, text) => {
+        return type[text.type];
+      },
     },
     {
       title: 'Operate',
+      valueType: 'option',
+      search: false,
       render: (row, text) => {
         return (
           <>
-            <Space>
-              <Button type="primary"> View </Button>
-              <Button type="primary"> Delete </Button>
-            </Space>
+            <Button
+              type="link"
+              onClick={() => {
+                deleteUser(text.uid);
+              }}
+            >
+              Delete User
+            </Button>
           </>
         );
       },
@@ -65,42 +106,21 @@ export default function Patients() {
   return (
     <>
       <ConfigProvider locale={intlMap.enUSIntl}>
-        <ProTable
+        <ProTable<registerUsers>
           columns={columns}
           actionRef={actionRef}
-          headerTitle="Patients Basic Info"
+          headerTitle="Registered Users"
+          search={{
+            optionRender: false,
+            collapsed: false,
+          }}
           request={async (params, sort) => {
+            const { data } = await fetchUsers();
             return {
-              data: [
-                {
-                  name: 'Steve',
-                  ssn: '123456789',
-                  dob: '01/16/1999',
-                  gender: 'Male',
-                  state: 'MA',
-                  city: 'Worcester',
-                },
-                {
-                  name: 'Allen',
-                  ssn: '123456789',
-                  dob: '01/16/1997',
-                  gender: 'Male',
-                  state: 'CA',
-                  city: 'San Jose',
-                },
-                {
-                  name: 'Justin',
-                  ssn: '123456789',
-                  dob: '01/16/1990',
-                  gender: 'Male',
-                  state: 'MA',
-                  city: 'Boston',
-                },
-              ],
-              success: true,
+              data,
             };
           }}
-        />
+        ></ProTable>
       </ConfigProvider>
     </>
   );
