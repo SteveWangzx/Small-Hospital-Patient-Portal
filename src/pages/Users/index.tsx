@@ -21,8 +21,9 @@ const intlMap = {
 };
 
 const type: { [key: string]: string } = {
-  '0': 'Administrator',
-  '1': 'Registered User',
+  '0': 'Doctor',
+  '1': 'Patient',
+  '2': 'Admin',
 };
 
 export default function () {
@@ -40,16 +41,9 @@ export default function () {
   };
 
   const deleteUser = (duid: string) => {
-    request(
-      'https://n63zuarfta.execute-api.us-east-2.amazonaws.com/Alpha/adminstor/deleteRegisterUser',
-      {
-        method: 'POST',
-        data: {
-          duid: duid,
-          uid: uid,
-        },
-      },
-    )
+    request(`http://localhost:3000/users/${duid}`, {
+      method: 'DELETE',
+    })
       .then((res) => {
         message.success('Delete Success');
       })
@@ -59,12 +53,15 @@ export default function () {
       .catch((err) => {
         message.error('Delete Failed');
       });
+    request(`http://localhost:3000/userInfo/${duid}`, {
+      method: 'DELETE',
+    });
   };
 
   const columns: ProColumns<registerUsers>[] = [
     {
       title: 'User Name',
-      dataIndex: 'uname',
+      dataIndex: 'userName',
     },
     {
       title: 'Password',
@@ -73,14 +70,14 @@ export default function () {
     },
     {
       title: 'User ID',
-      dataIndex: 'uid',
+      dataIndex: 'id',
       search: false,
     },
     {
       title: 'User Type',
       dataIndex: 'type',
       render: (row, text) => {
-        return type[text.type];
+        return type[text.userType];
       },
     },
     {
@@ -93,7 +90,7 @@ export default function () {
             <Button
               type="link"
               onClick={() => {
-                deleteUser(text.uid);
+                deleteUser(text.id);
               }}
             >
               Delete User
@@ -115,7 +112,7 @@ export default function () {
             collapsed: false,
           }}
           request={async (params, sort) => {
-            const { data } = await fetchUsers();
+            const data = await fetchUsers();
             return {
               data,
             };

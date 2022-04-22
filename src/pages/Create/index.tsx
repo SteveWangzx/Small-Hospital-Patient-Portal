@@ -27,35 +27,48 @@ const Create = () => {
   // const _userName = userName()
 
   const register_set = async (data: any) => {
-    await request(
-      'https://n63zuarfta.execute-api.us-east-2.amazonaws.com/Alpha/register',
-      {
-        method: 'post',
-        data,
-      },
-    )
+    await request('http://localhost:3000/users', {
+      method: 'post',
+      data,
+    })
       .then((res) => {
-        const { msg } = res;
-        message.success(msg);
+        message.success('Reguster Success!');
         console.log(res);
         // localStorage.setItem('ams_statusType', statusType);
       })
       .catch((err) => {
-        message.error(`Register Failed! Please try again!${err.msg}`);
+        message.error(`Register Failed! Please try again!`);
       })
       .finally(() => {
         history.push('/login');
       });
   };
+
+  const create_info = async (data: any) => {
+    await request('http://localhost:3000/userInfo', {
+      method: 'post',
+      data,
+    });
+  };
   const registerHook = () => {
     form.validateFields().then(() => {
       const { username, password, type } = form.getFieldsValue();
+      const rand = Math.random();
+      const id = 10000 + Math.round(rand * 10000);
+      const str_id = id.toString();
       const data = {
-        uname: username,
+        id: str_id,
+        userName: username,
         password: password,
-        type: type,
+        userType: type,
       };
-      register_set(data);
+      const info = {
+        id: str_id,
+        userName: username,
+      };
+      register_set(data).then(() => {
+        create_info(info);
+      });
     });
   };
   const onFinish = async (values: LoginParams) => {
@@ -159,6 +172,7 @@ const Create = () => {
               <Radio.Group value={userType} onChange={onUserTypeChange}>
                 <Radio.Button value="0">Doctor</Radio.Button>
                 <Radio.Button value="1">Patient</Radio.Button>
+                <Radio.Button value="2">Admin</Radio.Button>
               </Radio.Group>
             </Form.Item>
             <div className={styles.divider} />

@@ -3,14 +3,20 @@ import { IRoute } from 'umi';
 const routes: IRoute[] = [
   {
     path: '/',
-    redirect: '/dashboard',
+    redirect: '/login',
     hideInMenu: true,
   },
   {
     path: '/dashboard',
     exact: false,
-    component: '@/pages/dashboard',
+    component: '@/pages/Dashboard',
     name: 'dashboard',
+  },
+  {
+    path: '/viewPatients',
+    exact: true,
+    name: 'View Patients',
+    component: '@/pages/ViewPatients',
   },
   {
     path: '/medicalrecord',
@@ -31,20 +37,20 @@ const routes: IRoute[] = [
   {
     path: '/mainPage/patients',
     name: 'Users Management',
-    component: '@/pages/Patients',
+    component: '@/pages/Users',
     exact: false,
   },
   {
     title: 'login',
     path: '/login',
     exact: true,
-    component: '@/pages/login',
+    component: '@/pages/Login',
     layout: false,
   },
   {
     path: '/create',
     exact: true,
-    component: '@/pages/create',
+    component: '@/pages/Create',
     layout: false,
   },
 ];

@@ -22,26 +22,26 @@ const Login = () => {
   // const _userName = userName()
 
   const login_set = async (data: any) => {
+    const { uname, password } = data;
     await request(
-      'https://n63zuarfta.execute-api.us-east-2.amazonaws.com/Alpha/login',
+      `http://localhost:3000/users?userName=${uname}&password=${password}`,
       {
-        method: 'post',
+        method: 'GET',
         data,
       },
     )
       .then((res) => {
-        const { msg, data } = res;
-        const { uname, type, uid } = data;
-        localStorage.setItem('ams_uname', uname);
-        localStorage.setItem('ams_type', type);
-        localStorage.setItem('ams_uid', uid);
-        console.log(res);
+        const { userName, userType, id } = res[0];
+        console.log(userName);
+        localStorage.setItem('uname', userName);
+        localStorage.setItem('type', userType);
+        localStorage.setItem('uid', id);
+        console.log(localStorage.getItem('uname'));
         message.success('Login succeed');
-        history.push('/');
         // localStorage.setItem('ams_statusType', statusType);
       })
-      .catch((err) => {
-        message.error('Username or Password incorrect!');
+      .then((res) => {
+        history.push('/dashboard');
       });
   };
 
@@ -54,13 +54,6 @@ const Login = () => {
       };
       login_set(data);
     });
-  };
-  const onFinish = async (values: LoginParams) => {
-    history.push('/');
-
-    setTimeout(() => {
-      refresh();
-    }, 0);
   };
 
   const test = (data: LoginParams) => {
@@ -156,14 +149,6 @@ const Login = () => {
               }}
             >
               create a new account
-            </Button>
-            <Button
-              type="link"
-              onClick={() => {
-                history.push('/');
-              }}
-            >
-              Enter as anonymous user
             </Button>
           </div>
         </div>

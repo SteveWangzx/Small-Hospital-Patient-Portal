@@ -5,8 +5,8 @@ import { DownOutlined, UserOutlined } from '@ant-design/icons';
 import SearchForm from '@/components/RightContent/SearchForm';
 
 export default () => {
-  const userName = localStorage.getItem('ams_uname');
   const [data, setdata] = useState<any>();
+  const [userName, setuserName] = useState<any>();
   const userLogin = () => {
     if (userName) {
       return [
@@ -45,6 +45,7 @@ export default () => {
   };
 
   useEffect(() => {
+    setuserName(localStorage.getItem('uname'));
     console.log(userName);
     const data = userLogin();
     setdata(data);

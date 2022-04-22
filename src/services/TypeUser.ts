@@ -1,10 +1,10 @@
 import { request } from 'umi';
 
 export type registerUsers = {
-  uid: string;
+  id: string;
   password: string;
-  uname: string;
-  type: string;
+  userName: string;
+  userType: string;
 };
 
 export type userActivity = {
@@ -20,12 +20,9 @@ export type UAParmas = {
 };
 
 export const fetchUsers = () =>
-  request<ResType.Normal<registerUsers[]>>(
-    'https://n63zuarfta.execute-api.us-east-2.amazonaws.com/Alpha/adminstor/getRegistered',
-    {
-      method: 'POST',
-    },
-  );
+  request<registerUsers[]>('http://localhost:3000/users', {
+    method: 'GET',
+  });
 
 export const fetchUA = (data: UAParmas) =>
   request<ResType.Normal<userActivity[]>>(
