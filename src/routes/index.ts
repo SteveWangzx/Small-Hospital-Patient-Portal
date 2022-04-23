@@ -8,37 +8,32 @@ const routes: IRoute[] = [
   },
   {
     path: '/dashboard',
-    exact: false,
     component: '@/pages/Dashboard',
     name: 'dashboard',
+    access: 'dashboard',
   },
   {
     path: '/viewPatients',
-    exact: true,
     name: 'View Patients',
+    access: 'Doctor',
     component: '@/pages/ViewPatients',
   },
   {
     path: '/medicalrecord',
     name: 'Medical Record',
     component: '@/pages/MedicalRecord',
-    exact: false,
+    access: 'Patient',
   },
   {
     path: '/pharmacy',
     name: 'Pharmacy',
-    exact: true,
-  },
-  {
-    path: '/treatment',
-    name: 'Treatment',
-    exact: true,
+    access: 'Admin',
   },
   {
     path: '/mainPage/patients',
     name: 'Users Management',
+    access: 'Admin',
     component: '@/pages/Users',
-    exact: false,
   },
   {
     title: 'login',

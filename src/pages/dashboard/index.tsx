@@ -18,7 +18,7 @@ import ProTable from '@ant-design/pro-table';
 import enUSIntl from 'antd/lib/locale/en_US';
 import Field from '@ant-design/pro-field';
 import styles from './dashboard.module.less';
-import { history, request } from 'umi';
+import { history, request, useModel } from 'umi';
 
 const intlMap = {
   enUSIntl,
@@ -40,12 +40,20 @@ const type: { [key: string]: string } = {
   '2': 'Adminstraitor',
 };
 
+const avatar: { [key: string]: string } = {
+  '0': './doctor.png',
+  '1': './MALE@3x.png',
+  '2': './admin_avatar.png',
+};
+
 export default function Dashboard() {
   const { Meta } = Card;
   const [id, setId] = useState<any>();
   const [userType, setUserType] = useState<any>();
   const [info, setInfo] = useState<any>();
   const [form] = Form.useForm();
+  const { initialState } = useModel('@@initialState');
+  const loginType = initialState?.loginType;
   // reset profile edit form
   const onReset = () => {
     form.resetFields();
@@ -94,17 +102,16 @@ export default function Dashboard() {
   useEffect(() => {
     const curr_id = localStorage.getItem('uid');
     const curr_type = localStorage.getItem('type');
-    console.log(curr_id);
     setId(curr_id);
-    console.log(info?.Address);
     setUserType(curr_type);
+    console.log(userType);
+    console.log(avatar[userType]);
     if (id) {
       infoGet(id).then((res) => {
         console.log(res[0]);
         setInfo(res[0]);
       });
     }
-    console.log(info?.Address);
   }, [id]);
 
   return (
@@ -116,7 +123,7 @@ export default function Dashboard() {
             className={styles['avatar-card']}
             cover={
               <img
-                src="./doctor.png"
+                src={`${avatar[userType]}`}
                 style={{ width: '100%', height: '100%' }}
               />
             }

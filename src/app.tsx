@@ -12,3 +12,9 @@ export const layout = () => {
     rightRender: () => <RightContent />,
   };
 };
+
+//Set Initial State
+export async function getInitialState(): Promise<{ loginType: string | null }> {
+  const loginType = localStorage.getItem('type');
+  return { loginType };
+}
