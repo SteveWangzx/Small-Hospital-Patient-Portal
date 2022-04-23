@@ -107,10 +107,10 @@ export default function () {
           columns={columns}
           actionRef={actionRef}
           headerTitle="Registered Users"
-          search={{
-            optionRender: false,
-            collapsed: false,
-          }}
+          // search={{
+          //   optionRender: false,
+          //   collapsed: false,
+          // }}
           request={async (params, sort) => {
             const data = await fetchUsers();
             return {

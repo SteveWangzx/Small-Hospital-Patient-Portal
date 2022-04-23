@@ -65,6 +65,7 @@ const Create = () => {
       const info = {
         id: str_id,
         userName: username,
+        userType: type,
       };
       register_set(data).then(() => {
         create_info(info);

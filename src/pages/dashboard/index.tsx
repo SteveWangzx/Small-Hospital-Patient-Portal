@@ -73,8 +73,10 @@ export default function Dashboard() {
 
   const formCollect = () => {
     form.validateFields().then(() => {
-      const { name, Location, Office, Address, phone } = form.getFieldsValue();
+      const { name, Location, Office, Address, phone, role } =
+        form.getFieldsValue();
       const username = localStorage.getItem('uname');
+      const usertype = localStorage.getItem('type');
       const data = {
         name: name,
         userName: username,
@@ -82,6 +84,8 @@ export default function Dashboard() {
         Office: Office,
         Address: Address,
         phone: phone,
+        role: role,
+        userType: usertype,
       };
       infoPut(data);
     });
@@ -119,7 +123,7 @@ export default function Dashboard() {
           >
             <Meta
               title={info?.name}
-              description={info?.Role}
+              description={info?.role}
               className={styles['avatar-meta']}
             />
           </Card>
@@ -169,6 +173,9 @@ export default function Dashboard() {
               </Form.Item>
               {/* <Descriptions.Item label="Name"> */}
               <Form.Item label="Name" name="name" initialValue={info?.name}>
+                <Input />
+              </Form.Item>
+              <Form.Item label="Role" name="role" initialValue={info?.role}>
                 <Input />
               </Form.Item>
               {/* </Descriptions.Item> */}

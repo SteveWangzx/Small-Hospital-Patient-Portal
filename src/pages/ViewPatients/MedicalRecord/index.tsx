@@ -32,13 +32,17 @@ type MRtype = {
   id: string;
 };
 
+interface param {
+  patientId: string;
+}
+
 const fetchPatient = (id: string) =>
   request<MRtype[]>(`http://localhost:3000/treatments?patientId=${id}`, {
     method: 'GET',
   });
 
-export default function () {
-  const patientId = localStorage.getItem('uid');
+export default function (props: param) {
+  const { patientId } = props;
   const actionRef = useRef<ActionType>();
 
   useEffect(() => {
@@ -121,7 +125,7 @@ export default function () {
           collapsed: false,
         }}
         request={async (params, sort) => {
-          const data = await fetchPatient(patientId as string);
+          const data = await fetchPatient(patientId);
           return { data };
         }}
       />
